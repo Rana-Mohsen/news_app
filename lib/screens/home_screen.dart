@@ -11,23 +11,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _sliderIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     var topHeight = MediaQuery.of(context).viewPadding.top;
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(
-            height: topHeight * 2,
-          ),
+          // SizedBox(
+          //   height: topHeight * 2,
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CustomeTextField(
-                hintText: "Search News",
-                onChange: (p0) {},
+              Padding(
+                padding:
+                    EdgeInsets.only(top: topHeight * 2.0, bottom: topHeight),
+                child: CustomeTextField(
+                  hintText: "Search News",
+                  onChange: (p0) {},
+                ),
               ),
               const CircleAvatar(
                 backgroundColor: Color(kPrimaryColor),
@@ -36,9 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.white,
                 ),
               ),
-              _slider(),
             ],
-          )
+          ),
+          _slider(),
+          _categoryList(),
         ],
       ),
     );
@@ -48,18 +51,41 @@ class _HomeScreenState extends State<HomeScreen> {
     return CarouselSlider.builder(
       itemCount: 5,
       itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-        return Image.network("https://media.wired.com/photos/66ab594d0c0cc4819f595db4/191:100/w_1280,c_limit/073024_Crypto%20get%20rich%20quick.jpg");
+        return Container(
+          width: 350.0, // Set a specific width
+          height: 200.0, // Set a specific height
+          child: Image.network(
+            "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+            fit: BoxFit.cover,
+          ),
+        );
       },
       options: CarouselOptions(
-          autoPlay: true,
-          enlargeCenterPage: true,
-          viewportFraction: 0.9,
-          aspectRatio: 2.0,
-          initialPage: 0,
-          onPageChanged: (index, reason) {
-            _sliderIndex = index;
-            setState(() {});
-          }),
+        autoPlay: false,
+        enlargeCenterPage: true,
+        viewportFraction: 0.8,
+        enableInfiniteScroll: false,
+        initialPage: 0,
+      ),
+    );
+  }
+
+  Widget _categoryList() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return SizedBox(
+            width: 350.0, // Set a specific width
+            height: 150.0, // Set a specific height
+            child: Image.network(
+              "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+              fit: BoxFit.cover,
+            ),
+          );
+          ;
+        },
+      ),
     );
   }
 }
