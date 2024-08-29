@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:news_app/screens/favorite_screen.dart';
+import 'package:news_app/screens/home_screen.dart';
+import 'package:news_app/screens/profile_screen.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -20,15 +24,16 @@ class _NavigationState extends State<Navigation> {
   ];
   List<String> titles = ['Home', 'Favorite', 'Profile'];
   int selectedIndex = 0;
+  List<Widget> pages = const [HomeScreen(), FavoriteScreen(), ProfileScreen()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          Container(),
+          pages[selectedIndex],
           Align(
-            child: _navbar(),
             alignment: Alignment.bottomCenter,
+            child: _navbar(),
           ),
         ],
       ),
