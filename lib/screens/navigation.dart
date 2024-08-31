@@ -50,6 +50,7 @@ class _NavigationState extends State<Navigation> {
       ),
       decoration: BoxDecoration(
           color: Colors.white,
+          border: Border.all(width: 1),
           borderRadius: BorderRadius.circular(32),
           boxShadow: [
             BoxShadow(
