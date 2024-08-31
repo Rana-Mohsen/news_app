@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/constants.dart';
 import 'package:news_app/screens/widgets/custom_choice_chip.dart';
 import 'package:news_app/screens/widgets/custome_textfield.dart';
+import 'package:news_app/screens/widgets/last_news_slide.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -51,13 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return CarouselSlider.builder(
       itemCount: 5,
       itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-        return SizedBox(
-          width: 100.w,
-          child: Image.network(
-            "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-            fit: BoxFit.cover,
-          ),
-        );
+        return SizedBox(width: 100.w, child: LastNewsSlide());
       },
       options: CarouselOptions(
         autoPlay: false,
