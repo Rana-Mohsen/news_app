@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/constants.dart';
+import 'package:news_app/screens/widgets/category_slide.dart';
 import 'package:news_app/screens/widgets/custom_choice_chip.dart';
 import 'package:news_app/screens/widgets/custome_textfield.dart';
 import 'package:news_app/screens/widgets/last_news_slide.dart';
@@ -71,14 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: 5,
         itemBuilder: (context, index) {
           return SizedBox(
-            width: 350.0, // Set a specific width
+            // width: 350.0, // Set a specific width
             height: 150.0, // Set a specific height
-            child: Image.network(
-              "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-              fit: BoxFit.cover,
-            ),
+            child: CategorySlide(),
           );
-          ;
         },
       ),
     );
