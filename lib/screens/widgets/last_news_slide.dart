@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/models/everything_model.dart';
 import 'package:sizer/sizer.dart';
 
 class LastNewsSlide extends StatelessWidget {
-  const LastNewsSlide({super.key});
-
+  const LastNewsSlide(
+      {super.key, required this.article,
+      });
+  final ArticleModel article;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -12,8 +15,9 @@ class LastNewsSlide extends StatelessWidget {
       child: Stack(
         fit: StackFit.passthrough,
         children: [
-          Image.asset(
-            "images/rec.png",
+          Image.network(
+            article
+            .urlToImage ?? "https://th.bing.com/th/id/OIP.NPpdGIpA1Gy84kqmg2eDzQHaFj?rs=1&pid=ImgDetMain",
             fit: BoxFit.cover,
           ),
           Container(
@@ -28,19 +32,19 @@ class LastNewsSlide extends StatelessWidget {
                 ],
               ),
             ),
-            child: const Padding(
-              padding: EdgeInsets.all(16.0),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "by Ryan Browne",
-                    style: TextStyle(color: Colors.white),
+                    article.author??"unknown",
+                    style: const TextStyle(color: Colors.white),
                   ),
                   Text(
-                    "Crypto investors should be prepared to lose all their money, BOE governor says",
-                    style: TextStyle(color: Colors.white),
+                   article.title?? "none",
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ],
               ),

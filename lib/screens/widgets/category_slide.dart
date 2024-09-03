@@ -13,7 +13,7 @@ class CategorySlide extends StatelessWidget {
         fit: StackFit.passthrough,
         children: [
           Image.asset(
-            "images/rec.png",
+            "assets/images/rec.png",
             fit: BoxFit.cover,
           ),
           Container(
