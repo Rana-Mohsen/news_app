@@ -1,9 +1,4 @@
-// To parse this JSON data, do
-//
-//     final everythingModel = everythingModelFromJson(jsonString);
-
-import 'dart:convert';
-
+import 'package:intl/intl.dart';
 
 class ArticleModel {
     Source? source;
@@ -12,7 +7,7 @@ class ArticleModel {
     String? description;
     String? url;
     String? urlToImage;
-    DateTime? publishedAt;
+    String? publishedAt;
     String? content;
 
     ArticleModel({
@@ -33,7 +28,7 @@ class ArticleModel {
         description: json["description"],
         url: json["url"],
         urlToImage: json["urlToImage"],
-        publishedAt: json["publishedAt"] == null ? null : DateTime.parse(json["publishedAt"]),
+        publishedAt: json["publishedAt"],
         content: json["content"],
     );
 
@@ -44,9 +39,15 @@ class ArticleModel {
         "description": description,
         "url": url,
         "urlToImage": urlToImage,
-        "publishedAt": publishedAt?.toIso8601String(),
+        "publishedAt": publishedAt,
         "content": content,
     };
+
+    String getFormattedDate() {
+        if (publishedAt == null) return '';
+        DateTime dateTime = DateTime.parse(publishedAt!);
+        return DateFormat('EEEE, d MMMM yyyy').format(dateTime);
+    }
 }
 
 class Source {

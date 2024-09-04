@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/models/everything_model.dart';
+import 'package:news_app/services/get_articles.dart';
 import 'package:sizer/sizer.dart';
 
 class CategorySlide extends StatelessWidget {
-  const CategorySlide({super.key});
-
+  const CategorySlide({super.key, required this.article});
+  final ArticleModel article;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -12,8 +14,9 @@ class CategorySlide extends StatelessWidget {
       child: Stack(
         fit: StackFit.passthrough,
         children: [
-          Image.asset(
-            "assets/images/rec.png",
+          Image.network(
+            article.urlToImage ??
+                "https://th.bing.com/th/id/OIP.NPpdGIpA1Gy84kqmg2eDzQHaFj?rs=1&pid=ImgDetMain",
             fit: BoxFit.cover,
           ),
           Container(
@@ -28,26 +31,30 @@ class CategorySlide extends StatelessWidget {
                 ],
               ),
             ),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Crypto investors should be prepared to lose all their money, BOE governor says",
-                    style: TextStyle(color: Colors.white),
+                    article.title ?? "none",
+                    style: const TextStyle(color: Colors.white),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "by Ryan Browne",
-                        style: TextStyle(color: Colors.white),
+                      SizedBox(
+                        width: 40.w,
+                        child: Text(
+                          article.author ?? "unknown",
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                       Text(
-                        "Sunday, 9 May 2021",
-                        style: TextStyle(color: Colors.white),
+                        article.publishedAt ?? " ",
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ],
                   )

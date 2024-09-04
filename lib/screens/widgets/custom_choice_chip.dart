@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/constants.dart';
+import 'package:news_app/cubits/home_categorys/home_categorys_cubit.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomChoiceChip extends StatefulWidget {
@@ -12,11 +14,14 @@ class CustomChoiceChip extends StatefulWidget {
 }
 
 class _CustomButtonState extends State<CustomChoiceChip> {
-  List<bool> isSel = List.generate(6, (index) => false);
+  List<bool> isSel = List.generate(6, (index) {
+    return index == 0 ? true : false;
+  });
+
   List<String> lables = [
     "business",
     "entertainment",
-    "generalhealth",
+    "health",
     "science",
     "sports",
     "technology"
@@ -54,6 +59,8 @@ class _CustomButtonState extends State<CustomChoiceChip> {
                   setState(() {
                     isSel.fillRange(0, 6, false);
                     isSel[index] = selected;
+                    BlocProvider.of<HomeCategorysCubit>(context)
+                        .categoryChanged(lables[index]);
                   });
                 },
               ),

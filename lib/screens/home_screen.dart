@@ -1,6 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/constants.dart';
+import 'package:news_app/cubits/home_categorys/home_categorys_cubit.dart';
 import 'package:news_app/models/everything_model.dart';
 import 'package:news_app/screens/widgets/category_slide.dart';
 import 'package:news_app/screens/widgets/custom_choice_chip.dart';
@@ -18,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future<List<ArticleModel>> futureArticles;
-
   @override
   void initState() {
     super.initState();
@@ -26,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<List<ArticleModel>> getArticles() async {
-    return await AllArticles().get_articls("celebrity");
+    return await AllArticles().getCtgArticls(keyWord: "general");
   }
 
   @override
@@ -55,22 +58,52 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          FutureBuilder<List<ArticleModel>>(
-            future: futureArticles,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Text('No articles found');
-              } else {
-                return _slider(snapshot.data!);
-              }
-            },
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  FutureBuilder<List<ArticleModel>>(
+                    future: futureArticles,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Text('No articles found');
+                      } else {
+                        return _slider(snapshot.data!);
+                      }
+                    },
+                  ),
+                  const CustomChoiceChip(),
+                  BlocBuilder<HomeCategorysCubit, HomeCategorysState>(
+                    builder: (context, state) {
+                      String ctg =
+                          BlocProvider.of<HomeCategorysCubit>(context).category;
+
+                      return FutureBuilder<List<ArticleModel>>(
+                        future: AllArticles().getCtgArticls(keyWord: ctg),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else if (!snapshot.hasData ||
+                              snapshot.data!.isEmpty) {
+                            return const Text('No articles found');
+                          } else {
+                            return _categoryList(snapshot.data!);
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
           ),
-          CustomChoiceChip(),
-          _categoryList(),
         ],
       ),
     );
@@ -94,15 +127,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _categoryList() {
-    return Expanded(
+  Widget _categoryList(List<ArticleModel> articles) {
+    return SizedBox(
+      height: 74.h,
       child: ListView.builder(
-        padding: EdgeInsets.all(8),
-        itemCount: 5,
+        padding: const EdgeInsets.all(8),
+        itemCount: 10,
         itemBuilder: (context, index) {
           return SizedBox(
             height: 150.0,
-            child: CategorySlide(),
+            child: CategorySlide(
+              article: articles[index],
+            ),
           );
         },
       ),
