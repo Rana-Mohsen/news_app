@@ -14,6 +14,10 @@ class AllArticles {
       if (everythingResp["articles"][i]["title"] == "[Removed]") {
         continue;
       }
+      if (everythingResp["articles"][i]["urlToImage"] == null) {
+        everythingResp["articles"][i]["urlToImage"] =
+            "https://th.bing.com/th/id/OIP.NPpdGIpA1Gy84kqmg2eDzQHaFj?rs=1&pid=ImgDetMain";
+      }
       everyArticles.add(ArticleModel.fromJson(everythingResp["articles"][i]));
     }
 
