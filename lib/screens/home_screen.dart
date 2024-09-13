@@ -25,78 +25,84 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var topHeight = MediaQuery.of(context).viewPadding.top;
-    return Scaffold(
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Padding(
-                padding:
-                    EdgeInsets.only(top: topHeight * 2.0, bottom: topHeight),
-                child: TextFieldContainer(const SearchScreen()),
-              ),
-              const CircleAvatar(
-                backgroundColor: Color(kPrimaryColor),
-                child: Icon(
-                  Icons.notifications_none_rounded,
-                  color: Colors.white,
+    return BlocProvider(
+      create: (context) => HomeCategorysCubit(),
+      child: Scaffold(
+        body: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.only(top: topHeight * 2.0, bottom: topHeight),
+                  child: textFieldContainer(const SearchScreen()),
+                ),
+                const CircleAvatar(
+                  backgroundColor: Color(kPrimaryColor),
+                  child: Icon(
+                    Icons.notifications_none_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    FutureBuilder<List<ArticleModel>>(
+                      future: AllArticles().getCtgArticls(keyWord: "general"),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return const Text('No articles found');
+                        } else {
+                          return _slider(snapshot.data!);
+                        }
+                      },
+                    ),
+                    const CustomChoiceChip(),
+                    BlocBuilder<HomeCategorysCubit, HomeCategorysState>(
+                      builder: (context, state) {
+                        String ctg =
+                            BlocProvider.of<HomeCategorysCubit>(context)
+                                .category;
+
+                        return FutureBuilder<List<ArticleModel>>(
+                          future: AllArticles().getCtgArticls(keyWord: ctg),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else if (!snapshot.hasData ||
+                                snapshot.data!.isEmpty) {
+                              return const Text('No articles found');
+                            } else {
+                              return _categoryList(snapshot.data!);
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  FutureBuilder<List<ArticleModel>>(
-                    future: AllArticles().getCtgArticls(keyWord: "general"),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Text('No articles found');
-                      } else {
-                        return _slider(snapshot.data!);
-                      }
-                    },
-                  ),
-                  const CustomChoiceChip(),
-                  BlocBuilder<HomeCategorysCubit, HomeCategorysState>(
-                    builder: (context, state) {
-                      String ctg =
-                          BlocProvider.of<HomeCategorysCubit>(context).category;
-
-                      return FutureBuilder<List<ArticleModel>>(
-                        future: AllArticles().getCtgArticls(keyWord: ctg),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else if (!snapshot.hasData ||
-                              snapshot.data!.isEmpty) {
-                            return const Text('No articles found');
-                          } else {
-                            return _categoryList(snapshot.data!);
-                          }
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget TextFieldContainer(Widget route) {
+  Widget textFieldContainer(Widget route) {
     return GestureDetector(
       onTap: () => Navigator.push(
           context,
