@@ -3,24 +3,28 @@ import 'package:sizer/sizer.dart';
 
 // ignore: must_be_immutable
 class CustomeTextField extends StatelessWidget {
-  CustomeTextField({super.key, this.hintText, required this.onChange});
+  CustomeTextField(
+      {super.key, this.hintText, this.iconPressed, this.onChanged});
 
   String? hintText;
-  Function(String) onChange;
+  Function()? iconPressed;
+  Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 80.w,
+      //width: 80.w,
       height: 6.h,
       child: TextField(
-        onChanged: onChange,
+        // onTap: onTap,
+        onChanged: onChanged,
         textAlignVertical: TextAlignVertical.bottom,
         cursorColor: Colors.black,
         cursorWidth: 0.4.w,
         decoration: InputDecoration(
-          suffixIcon: const Icon(
-            Icons.search,
-            color: Colors.grey,
+          suffixIcon: IconButton(
+            onPressed: iconPressed,
+            icon: const Icon(Icons.close),
+            color: Colors.black87,
           ),
           hintText: hintText,
           hintStyle: TextStyle(color: Colors.grey.shade400),

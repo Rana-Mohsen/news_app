@@ -84,8 +84,8 @@ class _NavigationState extends State<Navigation> {
                         left: 35,
                         right: 35,
                       ),
-                      child:
-                          Image.asset(isSelected ? selectedIcons[index] : icon),
+                      child: Image.asset(
+                          isSelected ? selectedIcons[index] : icons[index]),
                     ),
                     Text(
                       titles[index],

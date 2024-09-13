@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/constants.dart';
 import 'package:news_app/cubits/home_categorys/home_categorys_cubit.dart';
 import 'package:news_app/models/everything_model.dart';
+import 'package:news_app/screens/search_screen.dart';
 import 'package:news_app/screens/widgets/category_slide.dart';
 import 'package:news_app/screens/widgets/custom_choice_chip.dart';
 import 'package:news_app/screens/widgets/custome_textfield.dart';
@@ -21,17 +22,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<ArticleModel>> futureArticles;
-  @override
-  void initState() {
-    super.initState();
-    futureArticles = getArticles();
-  }
-
-  Future<List<ArticleModel>> getArticles() async {
-    return await AllArticles().getCtgArticls(keyWord: "general");
-  }
-
   @override
   Widget build(BuildContext context) {
     var topHeight = MediaQuery.of(context).viewPadding.top;
@@ -44,10 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding:
                     EdgeInsets.only(top: topHeight * 2.0, bottom: topHeight),
-                child: CustomeTextField(
-                  hintText: "Search News",
-                  onChange: (p0) {},
-                ),
+                child: TextFieldContainer(const SearchScreen()),
               ),
               const CircleAvatar(
                 backgroundColor: Color(kPrimaryColor),
@@ -63,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   FutureBuilder<List<ArticleModel>>(
-                    future: futureArticles,
+                    future: AllArticles().getCtgArticls(keyWord: "general"),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const CircularProgressIndicator();
@@ -105,6 +92,45 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget TextFieldContainer(Widget route) {
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => route,
+          )),
+      child: Container(
+        width: 80.w,
+        height: 6.h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(32),
+          border: Border.all(
+            color: Colors.grey.shade300,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsetsDirectional.only(start: 12.0),
+              child: Text(
+                "Search News",
+                style: TextStyle(color: Colors.grey.shade400),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsetsDirectional.only(end: 12.0),
+              child: Icon(
+                Icons.search,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
