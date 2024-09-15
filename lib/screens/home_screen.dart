@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
+               // dragStartBehavior: DragStartBehavior.down,
                 child: Column(
                   children: [
                     FutureBuilder<List<ArticleModel>>(
@@ -163,6 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SizedBox(
       height: 74.h,
       child: ListView.builder(
+       // physics: NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.all(8),
         itemCount: 10,
         itemBuilder: (context, index) {
