@@ -1,5 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/cubits/favorit/favorit_cubit.dart';
 import 'package:news_app/screens/favorite_screen.dart';
 import 'package:news_app/screens/home_screen.dart';
 import 'package:news_app/screens/profile_screen.dart';
@@ -71,6 +74,9 @@ class _NavigationState extends State<Navigation> {
               onTap: () {
                 setState(() {
                   selectedIndex = index;
+                  // if (selectedIndex == 2) {
+                  //   BlocProvider.of<FavoritCubit>(context).favoritBody();
+                  // }
                 });
               },
               child: SingleChildScrollView(

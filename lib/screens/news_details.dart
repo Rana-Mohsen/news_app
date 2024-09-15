@@ -3,22 +3,41 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/constants.dart';
+import 'package:news_app/cubits/favorit/favorit_cubit.dart';
 import 'package:news_app/models/everything_model.dart';
 import 'package:sizer/sizer.dart';
 
-class NewsDetails extends StatelessWidget {
+class NewsDetails extends StatefulWidget {
   const NewsDetails({super.key, required this.article});
   final ArticleModel article;
+
+  @override
+  State<NewsDetails> createState() => _NewsDetailsState();
+}
+
+class _NewsDetailsState extends State<NewsDetails> {
+
   @override
   Widget build(BuildContext context) {
+    var bloc = BlocProvider.of<FavoritCubit>(context);
+  bool isFav = widget.article.isFav;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          setState(() {
+            isFav = !isFav;
+            isFav
+                ? bloc.addFavorit(widget.article)
+                : bloc.removeFavorit(widget.article);
+            BlocProvider.of<FavoritCubit>(context).favoritBody();
+          });
+        },
         backgroundColor: const Color(kPrimaryColor),
         shape: const CircleBorder(),
-        child: const Icon(
-          Icons.favorite_border,
+        child: Icon(
+          isFav ? Icons.favorite : Icons.favorite_border,
           color: Colors.white,
         ),
       ),
@@ -30,7 +49,7 @@ class NewsDetails extends StatelessWidget {
               height: 50.h,
               width: 100.w,
               child: Image.network(
-                article.urlToImage!,
+                widget.article.urlToImage!,
                 fit: BoxFit.cover,
               ),
             ),
@@ -87,10 +106,9 @@ class NewsDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(article.publishedAt!),
-                Text(
-                    article.title?? 'none'),
-                Text(article.author?? "unknown"),
+                Text(widget.article.publishedAt!),
+                Text(widget.article.title ?? 'none'),
+                Text(widget.article.author ?? "unknown"),
               ],
             ),
           ),
@@ -110,7 +128,7 @@ class NewsDetails extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.only(top: 96, left: 16, right: 16),
-        child: Text(article.content??"none"),
+        child: Text(widget.article.content ?? "none"),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/cubits/favorit/favorit_cubit.dart';
 import 'package:news_app/cubits/home_categorys/home_categorys_cubit.dart';
 import 'package:news_app/cubits/search/search_cubit.dart';
 import 'package:news_app/screens/navigation.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       return MultiBlocProvider(
         providers: [
           BlocProvider(create: ((context) => SearchCubit())),
+          BlocProvider(create: ((context) => FavoritCubit())),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

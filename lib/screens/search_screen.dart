@@ -64,7 +64,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return Expanded(
       child: ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: 10,
+        itemCount: articles.length,
         itemBuilder: (context, index) {
           return SizedBox(
             height: 150.0,
