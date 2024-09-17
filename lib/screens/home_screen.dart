@@ -1,8 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/constants.dart';
 import 'package:news_app/cubits/home_categorys/home_categorys_cubit.dart';
@@ -10,7 +7,6 @@ import 'package:news_app/models/everything_model.dart';
 import 'package:news_app/screens/search_screen.dart';
 import 'package:news_app/screens/widgets/category_slide.dart';
 import 'package:news_app/screens/widgets/custom_choice_chip.dart';
-import 'package:news_app/screens/widgets/custome_textfield.dart';
 import 'package:news_app/screens/widgets/last_news_slide.dart';
 import 'package:news_app/services/get_articles.dart';
 import 'package:sizer/sizer.dart';
@@ -23,6 +19,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ScrollController _scrollController = ScrollController();
+  final ValueNotifier<bool> _isListViewScrollable = ValueNotifier(false);
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.offset >= 200) {
+        // Adjust this value as needed
+        _isListViewScrollable.value = true;
+      } else {
+        _isListViewScrollable.value = false;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var topHeight = MediaQuery.of(context).viewPadding.top;
@@ -50,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-               // dragStartBehavior: DragStartBehavior.down,
+                controller: _scrollController,
                 child: Column(
                   children: [
                     FutureBuilder<List<ArticleModel>>(
@@ -163,20 +175,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _categoryList(List<ArticleModel> articles) {
     return SizedBox(
-      height: 74.h,
-      child: ListView.builder(
-       // physics: NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(8),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return SizedBox(
-            height: 150.0,
-            child: CategorySlide(
-              article: articles[index],
-            ),
-          );
-        },
-      ),
-    );
+        height: 74.h,
+        child: ValueListenableBuilder<bool>(
+            valueListenable: _isListViewScrollable,
+            builder: (context, isScrollable, child) {
+              return ListView.builder(
+                physics: isScrollable
+                    ? AlwaysScrollableScrollPhysics()
+                    : NeverScrollableScrollPhysics(),
+                //shrinkWrap: true,
+                padding: const EdgeInsets.all(8),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return SizedBox(
+                    height: 150.0,
+                    child: CategorySlide(
+                      article: articles[index],
+                    ),
+                  );
+                },
+              );
+            }));
   }
 }
