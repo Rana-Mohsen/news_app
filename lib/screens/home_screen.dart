@@ -22,17 +22,25 @@ class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   final ValueNotifier<bool> _isListViewScrollable = ValueNotifier(false);
 
+  _controllScroll() {
+    if (_scrollController.offset >= 200) {
+      // Adjust this value as needed
+      _isListViewScrollable.value = true;
+    } else {
+      _isListViewScrollable.value = false;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.offset >= 200) {
-        // Adjust this value as needed
-        _isListViewScrollable.value = true;
-      } else {
-        _isListViewScrollable.value = false;
-      }
-    });
+    _scrollController.addListener(_controllScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_controllScroll);
+    super.dispose();
   }
 
   @override
@@ -52,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: textFieldContainer(const SearchScreen()),
                 ),
                 const CircleAvatar(
-                  backgroundColor: Color(kPrimaryColor),
+                  backgroundColor: kPrimaryColor,
                   child: Icon(
                     Icons.notifications_none_rounded,
                     color: Colors.white,
@@ -181,8 +189,8 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: (context, isScrollable, child) {
               return ListView.builder(
                 physics: isScrollable
-                    ? AlwaysScrollableScrollPhysics()
-                    : NeverScrollableScrollPhysics(),
+                    ? const AlwaysScrollableScrollPhysics()
+                    : const NeverScrollableScrollPhysics(),
                 //shrinkWrap: true,
                 padding: const EdgeInsets.all(8),
                 itemCount: 10,

@@ -34,7 +34,7 @@ class _NewsDetailsState extends State<NewsDetails> {
             BlocProvider.of<FavoritCubit>(context).favoritBody();
           });
         },
-        backgroundColor: const Color(kPrimaryColor),
+        backgroundColor: kPrimaryColor,
         shape: const CircleBorder(),
         child: Icon(
           isFav ? Icons.favorite : Icons.favorite_border,

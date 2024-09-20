@@ -50,7 +50,7 @@ class _CustomButtonState extends State<CustomChoiceChip> {
                 ),
                 labelPadding: const EdgeInsets.symmetric(horizontal: 8),
                 // color of selected chip
-                selectedColor: const Color(kPrimaryColor),
+                selectedColor: kPrimaryColor,
                 // backgroundColor: Colors.blue,
                 // selected chip value
                 selected: isSel[index],

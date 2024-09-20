@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/cubits/favorit/favorit_cubit.dart';
-import 'package:news_app/cubits/home_categorys/home_categorys_cubit.dart';
 import 'package:news_app/cubits/search/search_cubit.dart';
-import 'package:news_app/screens/navigation.dart';
-import 'package:news_app/screens/news_details.dart';
+import 'package:news_app/screens/login_screen.dart';
 import 'package:sizer/sizer.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -30,7 +34,7 @@ class MyApp extends StatelessWidget {
             //colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const Navigation(),
+          home: const LoginScreen(),
         ),
       );
     });
