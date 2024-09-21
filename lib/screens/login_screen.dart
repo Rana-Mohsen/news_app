@@ -1,9 +1,6 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:news_app/screens/home_screen.dart';
+import 'package:news_app/helper/validators.dart';
 import 'package:news_app/screens/navigation.dart';
 import 'package:news_app/screens/register_screen.dart';
 import 'package:news_app/screens/widgets/custome_button.dart';
@@ -25,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? password;
   bool isLoading = false;
 
-  GlobalKey<FormState> formKey = GlobalKey();
+  GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
-          key: formKey,
+          key: _formKey,
           child: Column(
             children: [
               const Spacer(
@@ -51,21 +48,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Text(
                     "LOGIN",
-                    style: TextStyle(color: Colors.white, fontSize: 24),
+                    style: TextStyle(color: Colors.black, fontSize: 24),
                   ),
                 ],
               ),
               const SizedBox(
                 height: 20,
               ),
-              CustomeTextFormField(
-                  validator: (data) {
-                    if (data!.isEmpty) {
-                      return 'email is required';
-                    } else if (data.contains('@') == false) {
-                      return 'email is not valid';
-                    }
-                  },
+              CustomTextFormField(
+                  validator: Validators.emailValidator,
                   onChange: (value) {
                     email = value;
                   },
@@ -73,14 +64,8 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 10,
               ),
-              CustomeTextFormField(
-                  validator: (data) {
-                    if (data!.isEmpty) {
-                      return 'password is required';
-                    } else if (data.length < 7) {
-                      return 'password is too short';
-                    }
-                  },
+              CustomTextFormField(
+                  validator: Validators.passwordValidator,
                   onChange: (value) {
                     password = value;
                   },
@@ -89,30 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 20,
               ),
               CustomeButton(
-                onTap: () async {
-                  if (formKey.currentState!.validate()) {
-                    isLoading = true;
-                    setState(() {});
-                    try {
-                      await signInUser();
-                      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const Navigation(),));
-                    } on FirebaseAuthException catch (e) {
-                      print(e);
-
-                      if (e.code == "wrong-password") {
-                        snackBarMessage(context, "your password is wrong");
-                      } else if (e.code == "user-not-found") {
-                        snackBarMessage(context, "user-not-found");
-                      }
-                    } catch (e) {
-                      print(e);
-
-                      snackBarMessage(context, "there was an error");
-                    }
-                    isLoading = false;
-                    setState(() {});
-                  }
-                },
+                onTap: _validateLoginForm,
                 text: 'LOGIN',
               ),
               const SizedBox(
@@ -127,7 +89,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => RegisterScreen(),));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RegisterScreen(),
+                          ));
                     },
                     child: const Text(
                       "Register",
@@ -146,8 +112,49 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> signInUser() async {
-    UserCredential user = await FirebaseAuth.instance
+  Future<void> _signInUser() async {
+    await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email!, password: password!);
+  }
+
+  _validateLoginForm() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+
+      try {
+        await _signInUser();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Navigation(),
+          ),
+        );
+      } on FirebaseAuthException catch (e) {
+        _handleFirebaseAuthException(e);
+      } catch (e) {
+        _handleGenericException(e);
+      } finally {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  void _handleFirebaseAuthException(FirebaseAuthException e) {
+    print(e);
+
+    if (e.code == "wrong-password") {
+      snackBarMessage(context, "Your password is wrong");
+    } else if (e.code == "user-not-found") {
+      snackBarMessage(context, "User not found");
+    }
+  }
+
+  void _handleGenericException(e) {
+    print(e);
+    snackBarMessage(context, "There was an error");
   }
 }
