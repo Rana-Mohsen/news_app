@@ -73,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 controller: _scrollController,
                 child: Column(
                   children: [
+                    const Text("Latest News"),
                     FutureBuilder<List<ArticleModel>>(
                       future: AllArticles().getCtgArticls(keyWord: "general"),
                       builder: (context, snapshot) {

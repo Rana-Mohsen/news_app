@@ -1,5 +1,6 @@
 # Miscellaneous
 apikey.dart
+firebase_options.dart
 *.class
 *.log
 *.pyc

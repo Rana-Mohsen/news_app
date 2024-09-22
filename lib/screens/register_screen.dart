@@ -5,6 +5,7 @@ import 'package:news_app/helper/validators.dart';
 import 'package:news_app/screens/navigation.dart';
 import 'package:news_app/screens/widgets/custom_textformfield.dart';
 import 'package:news_app/screens/widgets/custome_button.dart';
+import 'package:sizer/sizer.dart';
 import '../constants.dart';
 import '../helper/snack_bar.dart';
 
@@ -21,6 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? email;
 
   String? password;
+  bool visible = true;
 
   bool isLoading = false;
 
@@ -37,24 +39,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Form(
             key: formKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Spacer(
                   flex: 3,
                 ),
-                const Text(
-                  "Scohlar Chat",
-                  style: TextStyle(color: Colors.white, fontSize: 32),
+                Text(
+                  "REGISTER",
+                  style: TextStyle(color: Colors.white, fontSize: 30.sp),
                 ),
                 const Spacer(
-                  flex: 2,
-                ),
-                const Row(
-                  children: [
-                    Text(
-                      "REGISTER",
-                      style: TextStyle(color: Colors.white, fontSize: 24),
-                    ),
-                  ],
+                  flex: 1,
                 ),
                 const SizedBox(
                   height: 20,
@@ -67,16 +62,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 CustomTextFormField(
+                    obscure: visible,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: IconButton(
+                        icon: visible
+                            ? const Icon(Icons.remove_red_eye)
+                            : const Icon(Icons.visibility_off),
+                        onPressed: () {
+                          setState(() {
+                            visible = !visible;
+                          });
+                        },
+                      ),
+                    ),
                     validator: Validators.passwordValidator,
                     onChange: (value) {
                       password = value;
                     },
                     hintText: 'Password'),
                 const SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 CustomeButton(
                   text: 'REGISTER',
@@ -104,7 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 const Spacer(
-                  flex: 3,
+                  flex: 4,
                 )
               ],
             ),

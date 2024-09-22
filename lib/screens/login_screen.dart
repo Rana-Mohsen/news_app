@@ -4,6 +4,7 @@ import 'package:news_app/helper/validators.dart';
 import 'package:news_app/screens/navigation.dart';
 import 'package:news_app/screens/register_screen.dart';
 import 'package:news_app/screens/widgets/custome_button.dart';
+import 'package:sizer/sizer.dart';
 
 import '../constants.dart';
 import '../helper/snack_bar.dart';
@@ -21,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? email;
   String? password;
   bool isLoading = false;
-
+  bool visible = true;
   GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
@@ -33,27 +34,17 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Spacer(
                 flex: 3,
               ),
-              const Text(
-                "Scohlar Chat",
-                style: TextStyle(color: Colors.white, fontSize: 32),
+              Text(
+                "LOGIN",
+                style: TextStyle(color: Colors.white, fontSize: 30.sp),
               ),
               const Spacer(
-                flex: 2,
-              ),
-              const Row(
-                children: [
-                  Text(
-                    "LOGIN",
-                    style: TextStyle(color: Colors.black, fontSize: 24),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
+                flex: 1,
               ),
               CustomTextFormField(
                   validator: Validators.emailValidator,
@@ -62,16 +53,30 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   hintText: 'Email'),
               const SizedBox(
-                height: 10,
+                height: 15,
               ),
               CustomTextFormField(
+                  obscure: visible,
+                  icon: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: IconButton(
+                      icon: visible
+                          ? const Icon(Icons.remove_red_eye)
+                          : const Icon(Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          visible = !visible;
+                        });
+                      },
+                    ),
+                  ),
                   validator: Validators.passwordValidator,
                   onChange: (value) {
                     password = value;
                   },
                   hintText: 'Password'),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               CustomeButton(
                 onTap: _validateLoginForm,
@@ -103,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               const Spacer(
-                flex: 3,
+                flex: 4,
               )
             ],
           ),
