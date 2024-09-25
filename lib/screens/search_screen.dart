@@ -53,7 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   },
                 );
               } else {
-                return Text("sugg");
+                return const Text("");
               }
             },
           ),

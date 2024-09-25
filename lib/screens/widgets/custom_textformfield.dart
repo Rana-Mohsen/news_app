@@ -26,7 +26,7 @@ class CustomTextFormField extends StatelessWidget {
         contentPadding: const EdgeInsets.all(16),
         suffixIcon: icon,
         hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.black26),
+        hintStyle: const TextStyle(color: Colors.black87),
         errorStyle: const TextStyle(
           color: kTertiaryColor, // Change the color of the error message
           fontSize: 14, // Change the font size of the error message

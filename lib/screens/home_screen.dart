@@ -9,6 +9,7 @@ import 'package:news_app/screens/widgets/category_slide.dart';
 import 'package:news_app/screens/widgets/custom_choice_chip.dart';
 import 'package:news_app/screens/widgets/last_news_slide.dart';
 import 'package:news_app/services/get_articles.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -88,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
+                          return shimmerSlide();
                         } else if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
                         } else if (!snapshot.hasData ||
@@ -111,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const CircularProgressIndicator();
+                              return shimmerList();
                             } else if (snapshot.hasError) {
                               return Text('Error: ${snapshot.error}');
                             } else if (!snapshot.hasData ||
@@ -214,5 +215,51 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               );
             }));
+  }
+
+  Widget shimmerSlide() {
+    return Shimmer.fromColors(
+        baseColor: Colors.grey[400]!,
+        highlightColor: Colors.grey[300]!,
+        child: Center(
+          child: Container(
+            height: 200,
+            width: 80.w,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ));
+  }
+
+  Widget shimmerList() {
+    return Shimmer.fromColors(
+        baseColor: Colors.grey[400]!,
+        highlightColor: Colors.grey[300]!,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Container(
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }

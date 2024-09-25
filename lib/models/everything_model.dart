@@ -29,6 +29,7 @@ class ArticleModel {
       DateTime dateTime = DateTime.parse(rawDate);
       formattedDate = DateFormat('EEEE, d MMM yyyy').format(dateTime);
     }
+
     return ArticleModel(
       source: json["source"] == null ? null : Source.fromJson(json["source"]),
       author: json["author"],
@@ -51,7 +52,6 @@ class ArticleModel {
         "publishedAt": publishedAt,
         "content": content,
       };
-
 }
 
 class Source {

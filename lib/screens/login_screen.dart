@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:news_app/helper/validators.dart';
 import 'package:news_app/screens/navigation.dart';
 import 'package:news_app/screens/register_screen.dart';
@@ -27,94 +28,98 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kPrimaryColor,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Spacer(
-                flex: 3,
-              ),
-              Text(
-                "LOGIN",
-                style: TextStyle(
+    return ModalProgressHUD(
+      inAsyncCall: isLoading,
+      child: Scaffold(
+        backgroundColor: kPrimaryColor,
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Spacer(
+                  flex: 3,
+                ),
+                Text(
+                  "LOGIN",
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 30.sp,
                     fontWeight: FontWeight.bold,
-                    ),
-              ),
-              const Spacer(
-                flex: 1,
-              ),
-              CustomTextFormField(
-                  validator: Validators.emailValidator,
-                  onChange: (value) {
-                    email = value;
-                  },
-                  hintText: 'Email'),
-              const SizedBox(
-                height: 15,
-              ),
-              CustomTextFormField(
-                  obscure: visible,
-                  icon: Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: IconButton(
-                      icon: visible
-                          ? const Icon(Icons.remove_red_eye)
-                          : const Icon(Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          visible = !visible;
-                        });
-                      },
-                    ),
                   ),
-                  validator: Validators.passwordValidator,
-                  onChange: (value) {
-                    password = value;
-                  },
-                  hintText: 'Password'),
-              const SizedBox(
-                height: 30,
-              ),
-              CustomeButton(
-                onTap: _validateLoginForm,
-                text: 'LOGIN',
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "don\'t have an account?",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RegisterScreen(),
-                          ));
+                ),
+                const Spacer(
+                  flex: 1,
+                ),
+                CustomTextFormField(
+                    validator: Validators.emailValidator,
+                    onChange: (value) {
+                      email = value;
                     },
-                    child: const Text(
-                      "Register",
-                      style: TextStyle(color: Color(0xffC7EDE6)),
+                    hintText: 'Email'),
+                const SizedBox(
+                  height: 15,
+                ),
+                CustomTextFormField(
+                    obscure: visible,
+                    icon: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: IconButton(
+                        icon: visible
+                            ? const Icon(Icons.remove_red_eye)
+                            : const Icon(Icons.visibility_off),
+                        onPressed: () {
+                          setState(() {
+                            visible = !visible;
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const Spacer(
-                flex: 4,
-              )
-            ],
+                    validator: Validators.passwordValidator,
+                    onChange: (value) {
+                      password = value;
+                    },
+                    hintText: 'Password'),
+                const SizedBox(
+                  height: 30,
+                ),
+                CustomeButton(
+                  onTap: _validateLoginForm,
+                  text: 'LOGIN',
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "don\'t have an account?",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterScreen(),
+                            ));
+                      },
+                      child: const Text(
+                        "Register",
+                        style: TextStyle(
+                            color: kTertiaryColor, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+                const Spacer(
+                  flex: 4,
+                )
+              ],
+            ),
           ),
         ),
       ),

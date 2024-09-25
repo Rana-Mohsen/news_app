@@ -1,6 +1,4 @@
 import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +6,7 @@ import 'package:news_app/constants.dart';
 import 'package:news_app/cubits/favorit/favorit_cubit.dart';
 import 'package:news_app/models/everything_model.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsDetails extends StatefulWidget {
   const NewsDetails({super.key, required this.article});
@@ -144,12 +143,41 @@ class _NewsDetailsState extends State<NewsDetails> {
       ),
       child: Padding(
         padding: const EdgeInsets.only(top: 96, left: 16, right: 16),
-        child: Text(
-          widget.article.content ?? "none",
-          style: const TextStyle(
-            fontWeight: FontWeight.w800,
-            fontSize: 16,
-          ),
+        child: Column(
+          children: [
+            Text(
+              widget.article.content ?? "none",
+              style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 16,
+              ),
+            ),
+            Row(
+              children: [
+                const Icon(
+                  Icons.menu_book,
+                  color: kPrimaryColor,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: InkWell(
+                    child: const Text(
+                      "Tap to read more",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    onTap: () async {
+                      Uri url = Uri.parse(widget.article.url!);
+                      await launchUrl(url);
+
+                      // if (await canLaunchUrl(url)) {
+                      //   await launchUrl(url);
+                      // }
+                    },
+                  ),
+                )
+              ],
+            )
+          ],
         ),
       ),
     );
