@@ -22,16 +22,24 @@ class ArticleModel {
     this.content,
   });
 
-  factory ArticleModel.fromJson(Map<String, dynamic> json) => ArticleModel(
-        source: json["source"] == null ? null : Source.fromJson(json["source"]),
-        author: json["author"],
-        title: json["title"],
-        description: json["description"],
-        url: json["url"],
-        urlToImage: json["urlToImage"],
-        publishedAt: json["publishedAt"],
-        content: json["content"],
-      );
+  factory ArticleModel.fromJson(Map<String, dynamic> json) {
+    String? rawDate = json["publishedAt"];
+    String? formattedDate;
+    if (rawDate != null) {
+      DateTime dateTime = DateTime.parse(rawDate);
+      formattedDate = DateFormat('EEEE, d MMM yyyy').format(dateTime);
+    }
+    return ArticleModel(
+      source: json["source"] == null ? null : Source.fromJson(json["source"]),
+      author: json["author"],
+      title: json["title"],
+      description: json["description"],
+      url: json["url"],
+      urlToImage: json["urlToImage"],
+      publishedAt: formattedDate,
+      content: json["content"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "source": source?.toJson(),
@@ -44,11 +52,6 @@ class ArticleModel {
         "content": content,
       };
 
-  String getFormattedDate() {
-    if (publishedAt == null) return '';
-    DateTime dateTime = DateTime.parse(publishedAt!);
-    return DateFormat('EEEE, d MMMM yyyy').format(dateTime);
-  }
 }
 
 class Source {
