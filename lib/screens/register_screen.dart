@@ -26,7 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool isLoading = false;
 
-  GlobalKey<FormState> formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(
-            key: formKey,
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -46,7 +46,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 Text(
                   "REGISTER",
-                  style: TextStyle(color: Colors.white, fontSize: 30.sp),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const Spacer(
                   flex: 1,
@@ -129,7 +133,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   _validateForm() async {
-    if (formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate()) {
       isLoading = true;
       setState(() {});
       try {

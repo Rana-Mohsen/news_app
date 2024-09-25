@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/models/everything_model.dart';
 import 'package:news_app/screens/news_details.dart';
-import 'package:sizer/sizer.dart';
 
 class LastNewsSlide extends StatelessWidget {
   const LastNewsSlide({
@@ -51,11 +49,19 @@ class LastNewsSlide extends StatelessWidget {
                   children: [
                     Text(
                       article.author ?? "unknown",
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Text(
                       article.title ?? "none",
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Libre",
+                        fontSize: 16,
+                      ),
                     ),
                   ],
                 ),

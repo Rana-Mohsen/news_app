@@ -18,11 +18,10 @@ class NewsDetails extends StatefulWidget {
 }
 
 class _NewsDetailsState extends State<NewsDetails> {
-
   @override
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<FavoritCubit>(context);
-  bool isFav = widget.article.isFav;
+    bool isFav = widget.article.isFav;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -91,6 +90,7 @@ class _NewsDetailsState extends State<NewsDetails> {
 
   Widget headerContainer() {
     return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 35.0, sigmaY: 35.0),
         child: Container(
@@ -98,7 +98,6 @@ class _NewsDetailsState extends State<NewsDetails> {
           width: 80.w,
           decoration: BoxDecoration(
             color: const Color(0xffF5F5F5).withOpacity(0.5),
-            borderRadius: BorderRadius.circular(16),
           ),
           child: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -106,9 +105,26 @@ class _NewsDetailsState extends State<NewsDetails> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.article.publishedAt!),
-                Text(widget.article.title ?? 'none'),
-                Text(widget.article.author ?? "unknown"),
+                Text(
+                  widget.article.publishedAt!,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                  ),
+                ),
+                Text(
+                  widget.article.title ?? 'none',
+                  style: const TextStyle(
+                    fontFamily: "Libre",
+                  ),
+                ),
+                Text(
+                  widget.article.author ?? "unknown",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
               ],
             ),
           ),
@@ -128,7 +144,13 @@ class _NewsDetailsState extends State<NewsDetails> {
       ),
       child: Padding(
         padding: const EdgeInsets.only(top: 96, left: 16, right: 16),
-        child: Text(widget.article.content ?? "none"),
+        child: Text(
+          widget.article.content ?? "none",
+          style: const TextStyle(
+            fontWeight: FontWeight.w800,
+            fontSize: 16,
+          ),
+        ),
       ),
     );
   }

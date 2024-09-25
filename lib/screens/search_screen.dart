@@ -21,8 +21,10 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
+        child: Column(children: [
+          SizedBox(
+            height: 5.h,
+          ),
           CustomeTextField(
             onChanged: (para) {
               query = para;

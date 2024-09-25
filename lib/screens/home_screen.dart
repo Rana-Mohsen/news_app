@@ -51,29 +51,38 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         body: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsets.only(top: topHeight * 2.0, bottom: topHeight),
-                  child: textFieldContainer(const SearchScreen()),
-                ),
-                const CircleAvatar(
-                  backgroundColor: kPrimaryColor,
-                  child: Icon(
-                    Icons.notifications_none_rounded,
-                    color: Colors.white,
+            Padding(
+              padding: EdgeInsets.only(top: topHeight * 2.0, bottom: topHeight),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  textFieldContainer(const SearchScreen()),
+                  const CircleAvatar(
+                    backgroundColor: kPrimaryColor,
+                    child: Icon(
+                      Icons.notifications_none_rounded,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Expanded(
               child: SingleChildScrollView(
                 controller: _scrollController,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Latest News"),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, bottom: 16),
+                      child: Text(
+                        "Latest News",
+                        style: TextStyle(
+                          fontFamily: "Libre",
+                          fontSize: 20.sp,
+                        ),
+                      ),
+                    ),
                     FutureBuilder<List<ArticleModel>>(
                       future: AllArticles().getCtgArticls(keyWord: "general"),
                       builder: (context, snapshot) {

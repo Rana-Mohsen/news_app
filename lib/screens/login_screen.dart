@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? password;
   bool isLoading = false;
   bool visible = true;
-  GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Text(
                 "LOGIN",
-                style: TextStyle(color: Colors.white, fontSize: 30.sp),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30.sp,
+                    fontWeight: FontWeight.bold,
+                    ),
               ),
               const Spacer(
                 flex: 1,

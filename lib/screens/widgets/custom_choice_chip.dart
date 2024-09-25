@@ -19,12 +19,12 @@ class _CustomButtonState extends State<CustomChoiceChip> {
   });
 
   List<String> lables = [
-    "business",
-    "entertainment",
-    "health",
-    "science",
-    "sports",
-    "technology"
+    "Business",
+    "Health",
+    "Science",
+    "Entertainment",
+    "Sports",
+    "Technology"
   ];
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,10 @@ class _CustomButtonState extends State<CustomChoiceChip> {
                 padding: const EdgeInsets.all(8),
                 label: Text(
                   lables[index],
-                  style: const TextStyle(fontSize: 17),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 labelPadding: const EdgeInsets.symmetric(horizontal: 8),
                 // color of selected chip
@@ -60,7 +63,7 @@ class _CustomButtonState extends State<CustomChoiceChip> {
                     isSel.fillRange(0, 6, false);
                     isSel[index] = selected;
                     BlocProvider.of<HomeCategorysCubit>(context)
-                        .categoryChanged(lables[index]);
+                        .categoryChanged(lables[index].toLowerCase());
                   });
                 },
               ),

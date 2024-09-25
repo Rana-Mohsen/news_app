@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:news_app/models/everything_model.dart';
 import 'package:news_app/screens/news_details.dart';
 import 'package:sizer/sizer.dart';
@@ -49,7 +50,10 @@ class CategorySlide extends StatelessWidget {
                     children: [
                       Text(
                         article.title ?? "none",
-                        style: const TextStyle(color: Colors.white),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontFamily: "Libre",
+                            fontSize: 14),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,12 +62,23 @@ class CategorySlide extends StatelessWidget {
                             width: 40.w,
                             child: Text(
                               article.author ?? "unknown",
-                              style: const TextStyle(color: Colors.white),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                          Text(
-                            article.publishedAt ?? " ",
-                            style: const TextStyle(color: Colors.white),
+                          Flexible(
+                            child: Text(
+                              article.publishedAt ?? " ",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       )
