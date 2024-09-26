@@ -1,6 +1,6 @@
 # news_app
 
-<img src="https://github.com/user-attachments/assets/391f7387-686b-46d3-bada-0f98624000f7" width="250" height="380">
+<img src="https://github.com/user-attachments/assets/391f7387-686b-46d3-bada-0f98624000f7" width="250" height="400">
 </br>
 <img src="https://github.com/user-attachments/assets/2a70c8c1-8d60-4b76-adfd-3c55b582f732" height="380">
 </br>
