@@ -1,6 +1,6 @@
 # news_app
 
-![459736897_1044829360207313_8712683899853673116_n](https://github.com/user-attachments/assets/391f7387-686b-46d3-bada-0f98624000f7)
+<img src="https://github.com/user-attachments/assets/391f7387-686b-46d3-bada-0f98624000f7" width="150" height="280">
 
 ![461014259_1176237500140039_4342931191103471958_n](https://github.com/user-attachments/assets/2a70c8c1-8d60-4b76-adfd-3c55b582f732)
 
